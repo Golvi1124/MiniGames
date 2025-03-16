@@ -29,7 +29,7 @@ class Program
                     break;
 
                 case "2": // Guess the Number
-                    Console.WriteLine("Here will be game code");
+                    GuessNumber.Run();
                     break;
 
                 case "3": // Rock, Paper, Scissors

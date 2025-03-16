@@ -1,4 +1,5 @@
 // using base instructions from: https://www.youtube.com/watch?v=ny5nIQMOkk0&list=PLm9GTh6TKrHOW8-eWabg6ETm95ajMid3b&index=2
+/* make it so there are 2 dices rolled with specific points. like 2 the same give extra. */
 using System;
 
 namespace MiniGames.GameCode;
@@ -64,8 +65,5 @@ public class DiceRoll
         {
             Console.WriteLine("It's a tie!");
         }
-
-
     }
-
 }
