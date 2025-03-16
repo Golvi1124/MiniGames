@@ -1,4 +1,5 @@
 ﻿namespace MiniGames;
+using MiniGames.GameCode;
 
 class Program
 {
@@ -23,8 +24,8 @@ class Program
 
             switch (menuSelection)
             {
-                case "1": // Dice Roll
-                    Console.WriteLine("Here will be game code");
+                case "1": 
+                    DiceRoll.Run();
                     break;
 
                 case "2": // Guess the Number
@@ -41,7 +42,7 @@ class Program
 
                 case "exit":
                     Console.WriteLine("Goodbye!");
-                    break;
+                    return;
 
                 default:
                     Console.WriteLine("Invalid selection. Please try again.");
