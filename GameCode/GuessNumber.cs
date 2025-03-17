@@ -48,6 +48,24 @@ public class GuessNumber
 
         } while (playerGuess != numberToGuess);
     }
+
+    private static void DisplayLock()
+    {
+        Console.WriteLine("        ╭───╮");
+        Console.WriteLine("        │   │");
+        Console.WriteLine("    ┌───┼───┼───┐");
+        Console.WriteLine("    │ ? │ ? │ ? │");
+        Console.WriteLine("    └───┴───┴───┘");
+    }
+
+    private static void DisplayUnlocked()
+    {
+        Console.WriteLine("        ╭───╮");
+        Console.WriteLine("        │    ");
+        Console.WriteLine("    ┌───┼───┼───┐");
+        Console.WriteLine("    │ 1 │ 2 │ 3 │");
+        Console.WriteLine("    └───┴───┴───┘");
+    }
 }
 
 /* 
