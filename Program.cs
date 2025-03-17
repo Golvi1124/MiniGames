@@ -8,14 +8,24 @@ class Program
         string? menuSelection;
 
         do
-        {
-            Console.Clear();
+        {   
+            try // needed try-catch because Debug Console in VS Code doesn't support Console.Clear() 
+            {
+                Console.Clear();
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Unable to clear the console in this environment.");
+                //throw;
+            }
+            
             Console.WriteLine("Welcome to the Mini Games!");
             Console.WriteLine();
             Console.WriteLine("1. Dice Roll (against the computer)");
             Console.WriteLine("2. Guess the Number");
             Console.WriteLine("3. Rock, Paper, Scissors");
             Console.WriteLine("4. Tic Tac Toe");
+            Console.WriteLine("5. The Hangman");
 
             Console.WriteLine();
             Console.Write("Enter your selection number (or type Exit to exit the program): ");
@@ -28,7 +38,7 @@ class Program
                     DiceRoll.Run();
                     break;
 
-                case "2": // Guess the Number
+                case "2": 
                     GuessNumber.Run();
                     break;
 
