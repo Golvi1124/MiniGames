@@ -22,7 +22,7 @@ class Program
             Console.WriteLine("Welcome to the Mini Games!");
             Console.WriteLine();
             Console.WriteLine("1. Dice Roll (against the computer)");
-            Console.WriteLine("2. Guess the Number");
+            Console.WriteLine("2. Guess The Number");
             Console.WriteLine("3. Rock, Paper, Scissors");
             Console.WriteLine("4. Tic Tac Toe");
             Console.WriteLine("5. The Hangman");

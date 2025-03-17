@@ -1,97 +1,100 @@
+/* 
+using base from: https://www.youtube.com/watch?v=Qs2aDQq8yWc&list=PLm9GTh6TKrHOW8-eWabg6ETm95ajMid3b&index=3 
+
+Added a lock with combination of 3 numbers.
+Added a loop to ask for a guess for each number in the lock.
+Display unlocked lock with the guessed numbers.
+ */
+
 namespace MiniGames.GameCode;
 
 public class GuessNumber
 {
     public static void Run()
-    {
-        Console.WriteLine("Welcome to Guess the Number!");
+    {   Console.Clear();
+        Console.WriteLine("Welcome to Guess The Number!");
+        Console.WriteLine("Your goal is to unlock this lock by guessing numbers (each number is 1-9).");
+        Console.WriteLine("If you guess all numbers correct, the lock will open and you win!");
 
         Random random = new Random();
-        int numberToGuess = random.Next(1, 11);
-        int playerGuess;
-        int attempts = 0;
+        int[] lockCombination = { random.Next(1, 10), random.Next(1, 10), random.Next(1, 10) };
+        int[] playerGuesses = { 0, 0, 0 };
+        int[] attemptCounts = { 0, 0, 0 };
+        int currentIndex = 0;
 
-        Console.WriteLine("I'm thinking of a number between 1 and 10. Can you guess it?");
+        DisplayLock(playerGuesses);
 
-        do
+        while (currentIndex < 3)
         {
-            Console.Write("\nEnter your guess: ");
-            string? input = Console.ReadLine();
+            while (true)
+            {   // ask for input
+                Console.Write($"\nEnter your guess for position {currentIndex + 1}: ");
+                string? input = Console.ReadLine();
 
-            // Validate user input
-            if (!int.TryParse(input, out playerGuess))
-            {
-                Console.WriteLine("Invalid input. Please enter a number between 1 and 10.");
-                continue; // Skip to the next loop iteration
-            }
-            // Check if the number is within the valid range
-            if (playerGuess < 0 || playerGuess > 10)
-            {
-                Console.WriteLine("Invalid input. Please enter a number between 1 and 10.");
-            }
+                // Validate user input and check if in range
+                if (!int.TryParse(input, out int guess) || guess < 1 || guess > 9)
+                {
+                    Console.WriteLine("Invalid input. Please enter a number between 1 and 9.");
+                    continue;
+                }
 
-            attempts++;
+                // count attempts
+                attemptCounts[currentIndex]++;
 
-            if (playerGuess < numberToGuess)
-            {
-                Console.WriteLine("Too low! Try again.");
-            }
-            else if (playerGuess > numberToGuess)
-            {
-                Console.WriteLine("Too high! Try again.");
-            }
+                // check if guess is correct, tell if too high or low
+                if (guess == lockCombination[currentIndex])
+                {
+                    playerGuesses[currentIndex] = guess;
+                    DisplayLock(playerGuesses);
+                    Console.WriteLine("Correct! You have unlocked this number.");
+                    currentIndex++;
+                    break;
+                }
+                else if (guess < lockCombination[currentIndex])
+                {
+                    Console.WriteLine("Too low! Try again.");
+                }
+                else
+                {
+                    Console.WriteLine("Too high! Try again.");
+                }
 
-            else
-            {
-                Console.WriteLine($"Congratulations! {numberToGuess} is correct number! You guessed it in {attempts} attempts.");
             }
-
-        } while (playerGuess != numberToGuess);
+        }
+        // clear console and display unlocked lock
+        Console.Clear();
+        DisplayUnlocked(lockCombination);
+        Console.WriteLine("\nCongratulations! You have successfully unlocked the lock!");
+        Console.WriteLine($"\n  It took you a total of {attemptCounts.Sum()} guesses.");
+        for (int i = 0; i < 3; i++)
+        {
+            Console.WriteLine($"\t- {attemptCounts[i]} guesses for {i + 1}. number");
+        }
     }
 
-    private static void DisplayLock()
+    // Display lock that updates with each correct guess 
+    private static void DisplayLock(int[] guesses)
     {
         Console.WriteLine("        ╭───╮");
         Console.WriteLine("        │   │");
         Console.WriteLine("    ┌───┼───┼───┐");
-        Console.WriteLine("    │ ? │ ? │ ? │");
+        Console.WriteLine($"    │ {DisplaySlot(guesses[0])} │ {DisplaySlot(guesses[1])} │ {DisplaySlot(guesses[2])} │");
         Console.WriteLine("    └───┴───┴───┘");
     }
 
-    private static void DisplayUnlocked()
+    // Display unlocked lock with correct numbers
+    private static void DisplayUnlocked(int[] combination)
     {
         Console.WriteLine("        ╭───╮");
-        Console.WriteLine("        │    ");
+        Console.WriteLine("        │   ");
         Console.WriteLine("    ┌───┼───┼───┐");
-        Console.WriteLine("    │ 1 │ 2 │ 3 │");
+        Console.WriteLine($"    │ {combination[0]} │ {combination[1]} │ {combination[2]} │");
         Console.WriteLine("    └───┴───┴───┘");
     }
+
+    // Display number or ? for unknown number
+    private static string DisplaySlot(int number)
+    {
+        return number == 0 ? "?" : number.ToString();
+    }
 }
-
-/* 
-Make it more interesting with:
-- "imitate" lock with 3 numbers that needs to be guessed in order
-- "Welcome to guess the number game!"
-"Your goal is to unlock this lock by guessing numbers (each number is 1-9)"
-and a lock something like this:
-   _____
-__|____|___
-| ? | ? | ? |
-____________
-
-
-
-   _____
-__|____|___
-| 7 | ? | ? |
-__________
-Good job! You have guessed the first!
-....
-   _____
-  |     |
-__|__________
-| 7 | 1 | 4 |
-_____________
-Congralations! You have succeded to unlock the lock!
-
- */
